@@ -6,29 +6,31 @@
     <title><?php echo APP_NAME ?? 'PalDeals'; ?></title>
     <style>
         body { font-family: Arial, sans-serif; margin: 20px; }
-        header { background: #333; color: white; padding: 10px; }
-        nav { margin: 10px 0; }
-        nav ul { list-style: none; }
-        nav li { display: inline; margin-right: 20px; }
-        footer { margin-top: 30px; border-top: 1px solid #ccc; padding-top: 10px; }
+        .header-separator { height: 2rem; background: #3d85ab; margin-bottom: 10px;width: 50%; border-radius: 15px; }
+        header {color: white; padding: 10px; align-items: center; display: flex; justify-content: center;}
+        main { display: flex; justify-content: center; }
+        .games-panel { width: 60%; height: 47rem; background: #3d85ab98; border: 1px solid #ccc; border-radius: 10px; margin-right: 20px; }
+        .selected-game { width: 60%; height: 47rem; background: #3d85ab98; border: 1px solid #bbb; border-radius: 10px; }
+        footer { margin-top: 30px; padding-top: 10px; align-items: center; display: flex; justify-content: center;}
     </style>
 </head>
 <body>
     <header>
-        <h1><?php echo APP_NAME ?? 'PalDeals'; ?></h1>
+        <div class="header-separator"></div>
     </header>
-    <nav>
-        <ul>
-            <li><a href="/">Home</a></li>
-            <li><a href="/?page=about">About</a></li>
-        </ul>
-    </nav>
     <main>
-        <h2>Welcome to <?php echo APP_NAME ?? 'PalDeals'; ?></h2>
-        <p>This is your basic PHP application.</p>
+        <div class="games-panel"></div>
+            <?php
+            // This is where the games list will be displayed
+            ?>
+        <div class="selected-game">
+            <?php
+            // This is where the selected game details will be displayed
+            ?>
+        </div>
     </main>
     <footer>
-        <p>&copy; 2025 <?php echo APP_NAME ?? 'PalDeals'; ?></p>
+        <div class="header-separator"></div>
     </footer>
 </body>
 </html>
