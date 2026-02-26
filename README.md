@@ -1,1 +1,2 @@
-# PalDeals
+
+# PalDeals - Palworld Themed instant gaming
