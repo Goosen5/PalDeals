@@ -16,6 +16,9 @@ class Application
 
     public function run()
     {
+        global $pdo;
+        $pdo = getDatabase();
+
         $this->getUrl();
         
         // Default routing
@@ -40,12 +43,23 @@ class Application
 
     private function route($page)
     {
-        // Basic routing logic - load view based on page
-        $viewPath = BASE_PATH . '/src/Views/' . $page . '.php';
-        if (file_exists($viewPath)) {
-            require_once $viewPath;
-        } else {
-            echo '<h2>404 - Page not found</h2>';
+        // Route to specific pages/handlers
+        switch ($page) {
+            case 'register':
+                handleRegister();
+                break;
+            case 'login':
+                // TODO: Implement login
+                $this->loadDefaultPage();
+                break;
+            default:
+                // Try to load view if it exists
+                $viewPath = BASE_PATH . '/src/Views/' . $page . '.php';
+                if (file_exists($viewPath)) {
+                    require_once $viewPath;
+                } else {
+                    echo '<h2>404 - Page not found</h2>';
+                }
         }
     }
 
