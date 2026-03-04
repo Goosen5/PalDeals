@@ -6,9 +6,10 @@
 // Database Configuration
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASS', 'P@lD34l5Pa$$W°rd');
+define('DB_PASS', '');
 define('DB_NAME', 'paldeals');
 define('DB_PORT', '3306');
+
 
 // App Configuration
 define('APP_NAME', 'PalDeals');
