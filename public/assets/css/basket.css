@@ -1,0 +1,56 @@
+*{
+    box-sizing: border-box;
+}
+
+body { 
+    display: flex;
+    justify-content: center;
+    font-family: Arial, sans-serif; 
+    margin: 20px; 
+    background: #0f1923; 
+    color: #fff; 
+}
+
+.main-panel {
+    display :flex;
+    justify-content: center;
+    width: 32rem;
+    height: 47rem;
+    background: #1a2b3a;
+    border: 1px solid #33576f;
+    border-radius: 10px;
+    padding: 16px;
+    padding-top: 0;
+    margin-top: 5rem;
+
+}
+
+.count-diamond {
+    top: -200px;
+    display: flex;
+    justify-content: center;
+    background: #1a2b3a;
+    border: 1px solid #33576f;
+    width: 10rem;
+    height: 10rem;
+    align-items: center;
+    margin-top: -50px;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    rotate: 45deg;
+}   
+
+.count-diamond-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    height: 70%;
+    font-size: 1.5rem;
+    background-color: #10202e;
+}
+
+.count{
+    transform: rotate(-45deg);
+    color: #fff;
+}

@@ -13,6 +13,7 @@ body {
     height: 2rem; 
     background: #3d85ab; 
     margin-bottom: 10px; 
+    background: linear-gradient(135deg, #345167, #20384c); 
     width: 50%; 
     border-radius: 15px; 
 }
