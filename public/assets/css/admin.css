@@ -1,3 +1,8 @@
+body{
+    overflow: hidden;
+    
+}
+
 .admin-popup-bg {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -69,10 +74,10 @@ body {
 }
 .admin-section {
     flex: 1;
-    background: #20384c;
-    border-radius: 16px;
+    background: #1a2b3a;
+    border-radius: 10px;
     margin: 0 0.5rem;
-    padding: 2rem 2.5rem;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -80,6 +85,7 @@ body {
     max-height: 60vh;
     overflow-y: auto;
     box-shadow: 0 4px 24px #0003;
+    border: 1px solid #33576f;
     scroll-behavior: smooth;
 }
 .admin-section::-webkit-scrollbar {
@@ -113,18 +119,20 @@ body {
 }
 /* Card for each game/user row */
 .game-row, .user-row {
-    background: #22364a;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px #0002;
+    background: #10202e;
+    border: 1px solid #304f63;
+    border-radius: 8px;
+    padding: 12px;
+    cursor: pointer;
+    transition: border-color .2s, transform .2s;
     display: flex;
     align-items: center;
     gap: 2rem;
     margin-bottom: 1.5rem;
-    padding: 1rem 1.5rem;
-    transition: box-shadow 0.2s;
 }
 .game-row:hover, .user-row:hover {
-    box-shadow: 0 6px 24px #3d85ab55;
+    border-color: #4ea1ce;
+    transform: translateY(-1px);
 }
 .game-row span, .user-row span {
     flex: 1;

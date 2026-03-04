@@ -31,7 +31,8 @@ body {
     border: 1px solid #33576f;
     border-radius: 12px;
     padding: 2rem;
-    min-height: 40rem;
+    min-height: 47rem;
+    max-height: 60vh;
 }
 .profile-section {
     flex: 1;
