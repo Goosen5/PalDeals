@@ -8,7 +8,12 @@
 </head>
 <body>
     <header>
-        <div class="header-separator"></div>
+        <div class="header-separator"> 
+            <!-- add profile button with profile.png icon on the right side of the header -->
+            <a class="profile-btn" href="/?page=profile" title="Profile">
+                <img src="/assets/images/user.png" alt="Profile">
+            </a>
+        </div>
     </header>
     <main>
         <div class="games-panel">
@@ -77,8 +82,9 @@
             </ul>
 
             <p id="detailDescription" class="detail-description"><?php echo htmlspecialchars($games[0]['description']); ?></p>
-
-            <button class="buy-button">Buy now</button>
+            <form action="/?page=basket" method="post">
+                <button class="buy-button" type="submit">Buy now</button>
+            </form>
         </div>
     </main>
     <footer>
