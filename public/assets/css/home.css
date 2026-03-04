@@ -210,3 +210,15 @@ footer {
     display: flex; 
     justify-content: center; 
 }
+
+.profile-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: #ff6b2d;
+    border: none;
+    color: #10202e;
+    padding: 9px 18px;
+    border-radius: 4px;
+    cursor: pointer;
+}
