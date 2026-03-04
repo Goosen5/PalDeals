@@ -12,21 +12,35 @@
     </header>
     <main>
         <div class="main-panel">
+            <a class="back-home-btn" href="/" title="Retour à l'accueil">
+                <span class="arrow-left">&#8592;</span>
+            </a>
             <div class="count-diamond"> <!--rotated div to act as a diamond--> 
-                <div class="count-diamond-inner"> <!--inner div to rotate back the text-->
-                    <span class="count">3</span>
+                <div class="count-diamond-inner"> 
+                    <span class="count">3</span><!--inner div to rotate back the text-->
                 </div>
             </div>
             <div class="basket-items">
-                <div class="basket-item">
-                    <div class="item-info">
-                        <h3 class="item-title">Elden Ring</h3>
-                        <p class="item-price">€59.99</p>
-                    </div>
-                <button class="remove-button">Remove</button>
+                <div class="basket-row">
+                    <span>Jeu 1</span>
+                    <span>Prix</span>
+                </div>
+                <div class="basket-row">
+                    <span>Jeu 2</span>
+                    <span>Prix</span>
+                </div>
+                <div class="basket-row">
+                    <span>Jeu 3</span>
+                    <span>Prix</span>
                 </div>
             </div>
-
+            <div class="separator"></div>
+            <div class="total">
+                <span>Total</span>
+                <span>89.97$</span>
+            </div>
+            <!-- <button class="checkout-button">Checkout</button> -->
+             <button class="checkout-button">Checkout</button>
         </div>
     </div>
 </main>
