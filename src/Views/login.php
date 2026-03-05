@@ -10,6 +10,18 @@
     <div class="main-panel">
         <div class="login-window">
             <h2>Login</h2>
+            <?php if (isset($errors) && count($errors) > 0): ?>
+                <div class="error-messages">
+                    <?php foreach ($errors as $error): ?>
+                        <p style="color: red;"><?= htmlspecialchars($error) ?></p>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+            <?php if (isset($success) && $success): ?>
+                <div class="success-message">
+                    <p style="color: green;">Login successful! Redirecting...</p>
+                </div>
+            <?php endif; ?>
             <form method="POST" action="/?page=login">
                 <div class="form-group">
                     <label for="username">Username</label>

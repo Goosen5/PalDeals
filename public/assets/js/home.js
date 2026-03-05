@@ -1,6 +1,7 @@
 const cards = Array.from(document.querySelectorAll('.game-card'));
 const searchInput = document.getElementById('searchInput');
 const platformFilter = document.getElementById('platformFilter');
+const developerFilter = document.getElementById('developerFilter');
 
 const detailTitle = document.getElementById('detailTitle');
 const detailDiscount = document.getElementById('detailDiscount');
@@ -23,6 +24,12 @@ function selectCard(card) {
     detailGenre.textContent = card.dataset.genre;
     detailDeveloper.textContent = card.dataset.developer;
     detailDescription.textContent = card.dataset.description;
+
+    // Update hidden input for Add to Library
+    const selectedGameIdInput = document.getElementById('selectedGameId');
+    if (selectedGameIdInput) {
+        selectedGameIdInput.value = card.dataset.id || card.dataset.gameId || '';
+    }
 }
 
 cards.forEach(card => {
@@ -32,11 +39,13 @@ cards.forEach(card => {
 function applyFilters() {
     const query = searchInput.value.trim().toLowerCase();
     const platform = platformFilter.value;
+    const developer = developerFilter.value;
 
     cards.forEach(card => {
         const matchName = card.dataset.name.toLowerCase().includes(query);
         const matchPlatform = platform === 'all' || card.dataset.platform === platform;
-        card.style.display = matchName && matchPlatform ? '' : 'none';
+        const matchDeveloper = developer === 'all' || card.dataset.developer === developer;
+        card.style.display = (matchName && matchPlatform && matchDeveloper) ? '' : 'none';
     });
 
     const visibleActive = document.querySelector('.game-card.active:not([style*="display: none"])');
@@ -50,3 +59,4 @@ function applyFilters() {
 
 searchInput.addEventListener('input', applyFilters);
 platformFilter.addEventListener('change', applyFilters);
+developerFilter.addEventListener('change', applyFilters);

@@ -34,7 +34,6 @@ CREATE TABLE IF NOT EXISTS user_achievements (
 CREATE TABLE IF NOT EXISTS basket (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER,
-    quantity INTEGER DEFAULT 1,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
@@ -42,5 +41,13 @@ CREATE TABLE IF NOT EXISTS basket_game (
     basket_id INTEGER,
     game_id INTEGER,
     FOREIGN KEY (basket_id) REFERENCES basket(id) ON DELETE CASCADE,
+    FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS library (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER,
+    game_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (game_id) REFERENCES game(id) ON DELETE CASCADE
 );

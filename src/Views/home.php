@@ -18,14 +18,10 @@
     <main>
         <div class="games-panel">
             <?php
-            $games = [
-                ['name' => 'Elden Ring', 'platform' => 'Steam', 'price' => 39.99, 'oldPrice' => 59.99, 'discount' => 33, 'genre' => 'RPG', 'developer' => 'FromSoftware', 'description' => 'Rise, Tarnished, and become an Elden Lord in the Lands Between.'],
-                ['name' => 'Cyberpunk 2077', 'platform' => 'Steam', 'price' => 29.99, 'oldPrice' => 59.99, 'discount' => 50, 'genre' => 'RPG', 'developer' => 'CD Projekt RED', 'description' => 'Explore Night City in this open-world action adventure RPG.'],
-                ['name' => 'Baldur\'s Gate 3', 'platform' => 'Steam', 'price' => 46.99, 'oldPrice' => 59.99, 'discount' => 22, 'genre' => 'RPG', 'developer' => 'Larian Studios', 'description' => 'Gather your party and return to the Forgotten Realms.'],
-                ['name' => 'Hogwarts Legacy', 'platform' => 'Steam', 'price' => 28.99, 'oldPrice' => 59.99, 'discount' => 52, 'genre' => 'Action', 'developer' => 'Avalanche Software', 'description' => 'Experience Hogwarts in the 1800s and uncover ancient secrets.'],
-                ['name' => 'God of War', 'platform' => 'Steam', 'price' => 24.99, 'oldPrice' => 49.99, 'discount' => 50, 'genre' => 'Action', 'developer' => 'Santa Monica Studio', 'description' => 'Kratos and Atreus journey through the Norse realms.'],
-                ['name' => 'Red Dead Redemption 2', 'platform' => 'Rockstar', 'price' => 21.99, 'oldPrice' => 59.99, 'discount' => 63, 'genre' => 'Adventure', 'developer' => 'Rockstar Games', 'description' => 'An epic tale of life in America at the dawn of the modern age.'],
-            ];
+            $db = new PDO('sqlite:' . __DIR__ . '/../../database/paldeals.db');
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $stmt = $db->query('SELECT * FROM game');
+            $games = $stmt->fetchAll(PDO::FETCH_ASSOC);
             ?>
 
             <div class="panel-toolbar">
@@ -35,30 +31,45 @@
                     <option value="Steam">Steam</option>
                     <option value="Rockstar">Rockstar</option>
                 </select>
+                <select id="developerFilter">
+                    <option value="all">All developers</option>
+                    <?php
+                    $devs = array_unique(array_map(function($g) { return $g['developer'] ?? ''; }, $games));
+                    foreach ($devs as $dev) {
+                        if ($dev) {
+                            echo '<option value="'.htmlspecialchars($dev).'">'.htmlspecialchars($dev).'</option>';
+                        }
+                    }
+                    ?>
+                </select>
             </div>
 
             <div id="gameGrid" class="game-grid">
                 <?php foreach ($games as $index => $game): ?>
                     <div
                         class="game-card<?php echo $index === 0 ? ' active' : ''; ?>"
-                        data-name="<?php echo htmlspecialchars($game['name']); ?>"
-                        data-platform="<?php echo htmlspecialchars($game['platform']); ?>"
-                        data-price="<?php echo number_format($game['price'], 2); ?>"
-                        data-old-price="<?php echo number_format($game['oldPrice'], 2); ?>"
-                        data-discount="<?php echo (int) $game['discount']; ?>"
-                        data-genre="<?php echo htmlspecialchars($game['genre']); ?>"
-                        data-developer="<?php echo htmlspecialchars($game['developer']); ?>"
-                        data-description="<?php echo htmlspecialchars($game['description']); ?>"
+                        data-name="<?php echo htmlspecialchars($game['name'] ?? $game['title'] ?? ''); ?>"
+                        data-platform="<?php echo htmlspecialchars($game['platform'] ?? ''); ?>"
+                        data-price="<?php echo isset($game['price']) ? number_format($game['price'], 2) : '0.00'; ?>"
+                        data-old-price="<?php echo isset($game['old_price']) ? number_format($game['old_price'], 2) : '0.00'; ?>"
+                        data-discount="<?php echo isset($game['discount']) ? (int) $game['discount'] : 0; ?>"
+                        data-genre="<?php echo htmlspecialchars($game['genre'] ?? ''); ?>"
+                        data-developer="<?php echo htmlspecialchars($game['developer'] ?? ''); ?>"
+                        data-description="<?php echo htmlspecialchars($game['description'] ?? ''); ?>"
                     >
                         <div class="card-top">
-                            <span class="badge-platform"><?php echo htmlspecialchars($game['platform']); ?></span>
-                            <span class="badge-discount">-<?php echo (int) $game['discount']; ?>%</span>
+                            <span class="badge-platform"><?php echo htmlspecialchars($game['platform'] ?? ''); ?></span>
+                            <span class="badge-discount">-<?php echo isset($game['discount']) ? (int) $game['discount'] : 0; ?>%</span>
                         </div>
-                        <div class="cover-placeholder"></div>
-                        <h3 class="card-title"><?php echo htmlspecialchars($game['name']); ?></h3>
+                        <div class="cover-placeholder">
+                            <?php if (!empty($game['image_url'])): ?>
+                                <img src="/<?php echo htmlspecialchars($game['image_url']); ?>" alt="<?php echo htmlspecialchars($game['title']); ?>" style="width:100%;height:auto;">
+                            <?php endif; ?>
+                        </div>
+                        <h3 class="card-title"><?php echo htmlspecialchars($game['title'] ?? ''); ?></h3>
                         <div class="card-prices">
-                            <span class="price-current">$<?php echo number_format($game['price'], 2); ?></span>
-                            <span class="price-old">$<?php echo number_format($game['oldPrice'], 2); ?></span>
+                            <span class="price-current">$<?php echo isset($game['price']) ? number_format($game['price'], 2) : '0.00'; ?></span>
+                            <span class="price-old">$<?php echo isset($game['old_price']) ? number_format($game['old_price'], 2) : '0.00'; ?></span>
                         </div>
                     </div>
                 <?php endforeach; ?>
@@ -66,25 +77,57 @@
         </div>
             
         <div class="selected-game">
-            <div class="hero">
-                <h2 id="detailTitle" class="hero-title"><?php echo htmlspecialchars($games[0]['name']); ?></h2>
-            </div>
-            <div class="detail-price-row">
-                <span id="detailDiscount" class="badge-discount">-<?php echo (int) $games[0]['discount']; ?>%</span>
-                <span id="detailPrice" class="price-current">$<?php echo number_format($games[0]['price'], 2); ?></span>
-                <span id="detailOldPrice" class="price-old">$<?php echo number_format($games[0]['oldPrice'], 2); ?></span>
-            </div>
+                <?php if (!empty($games) && isset($games[0])): ?>
+                    <div class="hero">
+                        <h2 id="detailTitle" class="hero-title"><?php echo htmlspecialchars($games[0]['name'] ?? $games[0]['title'] ?? ''); ?></h2>
+                    </div>
+                    <div class="detail-price-row">
+                        <span id="detailDiscount" class="badge-discount">-<?php echo isset($games[0]['discount']) ? (int) $games[0]['discount'] : 0; ?>%</span>
+                        <span id="detailPrice" class="price-current">$<?php echo isset($games[0]['price']) ? number_format($games[0]['price'], 2) : '0.00'; ?></span>
+                        <span id="detailOldPrice" class="price-old">$<?php echo isset($games[0]['old_price']) ? number_format($games[0]['old_price'], 2) : '0.00'; ?></span>
+                    </div>
 
-            <ul class="detail-meta">
-                <li><strong>Platform:</strong> <span id="detailPlatform"><?php echo htmlspecialchars($games[0]['platform']); ?></span></li>
-                <li><strong>Genre:</strong> <span id="detailGenre"><?php echo htmlspecialchars($games[0]['genre']); ?></span></li>
-                <li><strong>Developer:</strong> <span id="detailDeveloper"><?php echo htmlspecialchars($games[0]['developer']); ?></span></li>
-            </ul>
+                    <ul class="detail-meta">
+                        <li><strong>Platform:</strong> <span id="detailPlatform"><?php echo htmlspecialchars($games[0]['platform'] ?? ''); ?></span></li>
+                        <li><strong>Genre:</strong> <span id="detailGenre"><?php echo htmlspecialchars($games[0]['genre'] ?? ''); ?></span></li>
+                        <li><strong>Developer:</strong> <span id="detailDeveloper"><?php echo htmlspecialchars($games[0]['developer'] ?? ''); ?></span></li>
+                    </ul>
 
-            <p id="detailDescription" class="detail-description"><?php echo htmlspecialchars($games[0]['description']); ?></p>
-            <form action="/?page=basket" method="post">
-                <button class="buy-button" type="submit">Buy now</button>
-            </form>
+                    <p id="detailDescription" class="detail-description"><?php echo htmlspecialchars($games[0]['description'] ?? ''); ?></p>
+                    <form id="addToLibraryForm" method="post">
+                        <input type="hidden" name="game_id" id="selectedGameId" value="<?php echo $games[0]['id'] ?? ''; ?>">
+                        <button class="buy-button" type="button" onclick="addToLibrary()">Add to Library</button>
+                    </form>
+
+                    <script>
+function addToLibrary() {
+    const gameId = document.getElementById('selectedGameId').value;
+    fetch('/?page=add_to_library', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'game_id=' + encodeURIComponent(gameId)
+    }).then(res => res.text()).then(data => {
+        alert('Added to library!');
+    });
+}
+</script>
+
+                <?php else: ?>
+                    <div class="hero">
+                        <h2 id="detailTitle" class="hero-title">No game selected</h2>
+                    </div>
+                    <div class="detail-price-row">
+                        <span id="detailDiscount" class="badge-discount">-0%</span>
+                        <span id="detailPrice" class="price-current">$0.00</span>
+                        <span id="detailOldPrice" class="price-old">$0.00</span>
+                    </div>
+                    <ul class="detail-meta">
+                        <li><strong>Platform:</strong> <span id="detailPlatform"></span></li>
+                        <li><strong>Genre:</strong> <span id="detailGenre"></span></li>
+                        <li><strong>Developer:</strong> <span id="detailDeveloper"></span></li>
+                    </ul>
+                    <p id="detailDescription" class="detail-description"></p>
+                <?php endif; ?>
         </div>
     </main>
     <footer>

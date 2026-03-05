@@ -9,6 +9,18 @@
     <div class="main-panel">
         <div class="register-window">
             <h2>Create your account</h2>
+            <?php if (!empty($errors)) { ?>
+                <div class="error-messages">
+                    <?php foreach ($errors as $error) { ?>
+                        <p style="color:red;"><?= htmlspecialchars($error) ?></p>
+                    <?php } ?>
+                </div>
+            <?php } ?>
+            <?php if (!empty($success)) { ?>
+                <div class="success-message">
+                    <p style="color:green;">Registration successful! You can now <a href="/?page=login">login</a>.</p>
+                </div>
+            <?php } else { ?>
             <form action="/?page=register" method="post">
                 <div class="form-group">
                     <label for="username">Username</label>
@@ -28,6 +40,7 @@
                 </div>
                 <button type="submit" class="btn">Register</button>
             </form>
+            <?php } ?>
             <div class="switch-auth">
                 <span>Already have an account?</span>
                 <a href="/?page=login">Login here</a>
